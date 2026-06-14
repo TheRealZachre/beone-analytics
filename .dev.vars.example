@@ -10,11 +10,11 @@ NEXTJS_ENV=development
 # =============================================================================
 # Cloudflare Workers Builds — recommended dashboard settings
 # =============================================================================
-# Build command:  npm run build:cloudflare
+# Build command:  npm run build
 # Deploy command: npx wrangler deploy
 #
-# Use build:cloudflare (OpenNext), not npm run build (Next.js only).
-# OpenNext calls npm run build internally; pointing build at OpenNext loops forever.
+# npm run build uses scripts/build.sh: OpenNext at the top level, plain next
+# build when OpenNext invokes npm run build internally (avoids recursion).
 #
 # Add AUTH_SECRET under Worker → Settings → Variables and Secrets.
 #

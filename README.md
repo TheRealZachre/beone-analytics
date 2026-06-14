@@ -20,12 +20,12 @@ In Cloudflare dashboard → Workers → **digitaltest-analytics** → Settings �
 
 | Setting | Value |
 |---------|--------|
-| **Build command** | `npm run build:cloudflare` |
+| **Build command** | `npm run build` |
 | **Deploy command** | `npx wrangler deploy` |
 
 Also add **AUTH_SECRET** under Variables and Secrets (runtime secret).
 
-Use `npm run build:cloudflare` (OpenNext), not plain `npm run build` (Next.js only) — otherwise `wrangler deploy` fails with *"Could not find compiled Open Next config"*.
+`npm run build` runs OpenNext for Cloudflare (creates `.open-next/`). OpenNext calls Next.js internally; do not point `build` directly at `opennextjs-cloudflare` or it will recurse.
 
 Optional: run build + deploy in one step with build command `npm run ci:cloudflare` and deploy command `echo "deployed in build step"`.
 

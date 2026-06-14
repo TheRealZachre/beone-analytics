@@ -5,7 +5,7 @@ import { listUsers } from "@/lib/auth/users";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminPage() {
+export default async function AnalyticsAdminPage() {
   const session = await auth();
 
   if (session?.user?.role !== "admin") {
@@ -18,16 +18,19 @@ export default async function AdminPage() {
     <div className="mx-auto w-full max-w-5xl px-6 py-10">
       <div className="mb-8">
         <p className="text-sm font-medium uppercase tracking-wide text-brand-indigo">
-          Admin
+          Analytics Admin
         </p>
-        <h1 className="mt-2 font-serif text-3xl text-brand-ink">User management</h1>
+        <h1 className="mt-2 font-serif text-3xl text-brand-ink">
+          Analytics Admin Console
+        </h1>
         <p className="mt-2 max-w-2xl text-sm text-brand-muted">
-          Create username and password accounts for your team. New users can sign
-          in with their username or email address.
+          Manage who can sign in to BeOne Analytics — reports, channel data, and
+          sync. User accounts here are separate from the main Digital Dashboard
+          platform and do not sync automatically.
         </p>
       </div>
 
-      <AdminUserConsole initialUsers={users} />
+      <AdminUserConsole initialUsers={users} scope="analytics" />
     </div>
   );
 }

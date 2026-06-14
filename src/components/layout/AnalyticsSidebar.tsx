@@ -86,7 +86,7 @@ export function AnalyticsSidebar({
             )}
           >
             <Shield className="h-4 w-4 shrink-0" />
-            Admin Console
+            Analytics Admin
           </Link>
         )}
 

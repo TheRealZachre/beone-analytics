@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3001 --webpack",
-    "build": "npm run build:cloudflare",
-    "build:next": "next build --webpack",
+    "build": "next build --webpack",
     "build:cloudflare": "OPENNEXT_CLOUDFLARE=1 opennextjs-cloudflare build",
     "start": "next start --port 3001",
     "lint": "eslint",

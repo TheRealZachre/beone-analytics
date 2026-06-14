@@ -12,7 +12,7 @@ import { resolveRoleForEmail } from "./roles";
 import { getAuthUrl } from "@/lib/env";
 import type { PublicUser, UserRecord, UserRole, UsersDatabase } from "./types";
 
-const USERS_FILE = "users.json";
+const USERS_FILE = "analytics-users.json";
 
 function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();

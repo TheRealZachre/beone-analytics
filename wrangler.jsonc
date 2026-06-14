@@ -18,6 +18,16 @@
     "enabled": true
   },
   "vars": {
-    "CLOUDFLARE_WORKERS": "1"
-  }
+    "CLOUDFLARE_WORKERS": "1",
+    "AUTH_ADMIN_EMAILS": "zach@zachre.com,zach@everythingandanythingpodcast.com",
+    "NEXT_PUBLIC_PLATFORM_URL": "https://digitaltest.zach-a56.workers.dev",
+    "PLATFORM_APP_URL": "https://digitaltest.zach-a56.workers.dev"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "ANALYTICS_DATA_KV",
+      "id": "0fbffc58db7c4c1ab3926402b3cf42d0",
+      "preview_id": "8c07b31a894e409cb0fbeaac0c5ff551"
+    }
+  ]
 }

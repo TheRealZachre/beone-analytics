@@ -5,7 +5,7 @@ import type {
   PasswordResetRecord,
 } from "./password-reset-types";
 
-const RESET_FILE = "password-reset-tokens.json";
+const RESET_FILE = "analytics-password-reset-tokens.json";
 const TOKEN_TTL_MS = 60 * 60 * 1000;
 
 async function readResetDb(): Promise<PasswordResetDatabase> {

@@ -1,19 +1,16 @@
 import type { ReactNode } from "react";
 import { UserWelcomeBar } from "@/components/auth/UserWelcomeBar";
-import { AnalyticsSidebar } from "@/components/layout/AnalyticsSidebar";
+import { Sidebar } from "./Sidebar";
 
-interface AnalyticsAppShellProps {
+interface AppShellProps {
   children: ReactNode;
   showAdminNav?: boolean;
 }
 
-export function AnalyticsAppShell({
-  children,
-  showAdminNav = false,
-}: AnalyticsAppShellProps) {
+export function AppShell({ children, showAdminNav = false }: AppShellProps) {
   return (
     <div className="flex min-h-screen bg-brand-paper">
-      <AnalyticsSidebar showAdminNav={showAdminNav} />
+      <Sidebar showAdminNav={showAdminNav} />
       <main className="flex flex-1 flex-col overflow-auto">
         <UserWelcomeBar />
         {children}

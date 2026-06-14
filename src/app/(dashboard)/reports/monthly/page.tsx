@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import { Header } from "@/components/layout/Header";
 import { DataSyncPanel } from "@/components/dashboard/DataSyncPanel";
 import { ReportDataBanner } from "@/components/dashboard/ReportDataBanner";
@@ -22,6 +21,7 @@ import {
   periodFromSummary,
   weekRowsFromBuckets,
 } from "@/lib/export-pptx-types";
+import { summarizeWeekBuckets } from "@/lib/narrative/aggregate";
 import {
   buildReportSummary,
   getAllPosts,
@@ -55,6 +55,9 @@ export default async function MonthlyReportPage() {
   const analysis = whatWorkedAnalysis(posts, 0);
   const currentWeeks = groupByWeek(posts);
   const priorWeeks = groupByWeek(priorMonth.posts);
+
+  const currentWeekSummary = summarizeWeekBuckets(currentWeeks);
+  const priorWeekSummary = summarizeWeekBuckets(priorWeeks);
 
   return (
     <>

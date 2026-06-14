@@ -5,7 +5,6 @@ import {
   Calendar,
   CalendarDays,
   CalendarRange,
-  Shield,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { DataSyncPanel } from "@/components/dashboard/DataSyncPanel";
@@ -24,7 +23,6 @@ import { getMonthPosts } from "@/lib/narrative/aggregate";
 import { rankByEngagement } from "@/lib/metrics";
 import { BrandSignalAnimated } from "@/components/brand/BrandSignalAnimated";
 import { PLATFORM_NAME, PLATFORM_TAGLINE } from "@/lib/company";
-import { auth } from "@/lib/auth";
 
 const reports = [
   {
@@ -57,8 +55,6 @@ const reports = [
 ];
 
 export default async function HomePage() {
-  const session = await auth();
-  const showAdminCard = session?.user?.role === "admin";
   const brand = await getBrand();
   const { meta, channelSources } = await getMultiChannelPosts();
   const allPosts = await getAllPosts();
@@ -105,33 +101,6 @@ export default async function HomePage() {
           initialMeta={meta ?? null}
           channelSources={channelSources}
         />
-
-        {showAdminCard && (
-          <section className="rounded-xl border border-brand-indigo/25 bg-brand-indigo/5 p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <div className="flex items-center gap-2 text-brand-indigo">
-                  <Shield className="h-5 w-5" />
-                  <h2 className="text-lg font-semibold text-slate-900">
-                    Analytics Admin Console
-                  </h2>
-                </div>
-                <p className="mt-2 max-w-xl text-sm text-slate-600">
-                  Manage analytics-only user accounts. Separate from the main
-                  platform admin — credentials created here only work on this
-                  app.
-                </p>
-              </div>
-              <Link
-                href="/admin"
-                className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-brand-indigo px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-indigo-bright"
-              >
-                Open admin console
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </section>
-        )}
 
         <section>
           <h2 className="mb-4 text-lg font-semibold text-slate-900">

@@ -3,7 +3,11 @@ import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { authConfig } from "./auth.config";
 import { googleEnabled } from "./constants";
-import { findUserById, upsertOAuthUser, verifyUserPassword } from "./users";
+import { refreshTokenRole } from "./session-role";
+import {
+  upsertOAuthUser,
+  verifyUserPassword,
+} from "./users";
 
 export { googleEnabled };
 
@@ -50,16 +54,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     ...authConfig.callbacks,
     async jwt(params) {
-      const token = authConfig.callbacks.jwt(params);
-
-      if (token.sub) {
-        const stored = await findUserById(token.sub);
-        if (stored) {
-          token.role = stored.role;
-        }
-      }
-
-      return token;
+      return refreshTokenRole(await authConfig.callbacks.jwt(params));
     },
     async signIn({ user, account, profile }) {
       if (account?.provider === "google" && user.email) {

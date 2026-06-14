@@ -40,8 +40,9 @@ const dmSerif = DM_Serif_Display({
 });
 
 export const metadata: Metadata = {
-  title: `BeOne Analytics — ${PLATFORM_NAME}`,
-  description: `Social media analytics and reporting for BeOne by ${PLATFORM_NAME}`,
+  title: `${PLATFORM_NAME} — ${PLATFORM_TAGLINE}`,
+  description:
+    `Unified organic and paid social media reporting with creative previews, competitor benchmarking, and budget recommendations by ${PLATFORM_NAME}`,
   icons: {
     icon: BRAND_ASSETS.favicon,
     apple: BRAND_ASSETS.favicon,

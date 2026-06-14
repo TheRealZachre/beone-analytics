@@ -27,4 +27,10 @@ if [ -n "${AUTH_SECRET:-}" ]; then
 fi
 
 cd "$root"
-exec npx wrangler deploy "${deploy_args[@]}"
+if [ ${#deploy_args[@]} -gt 0 ]; then
+  echo "Uploading AUTH_SECRET with wrangler deploy..."
+  exec npx wrangler deploy "${deploy_args[@]}"
+fi
+
+echo "WARNING: AUTH_SECRET not set locally — deploying without secret upload."
+exec npx wrangler deploy

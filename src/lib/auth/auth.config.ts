@@ -1,5 +1,6 @@
 import type { NextAuthConfig } from "next-auth";
 import { getAuthSecret } from "@/lib/env";
+import { isAdminAuthUser, normalizeSessionRole, refreshTokenRole } from "./session-role";
 
 export const authConfig = {
   secret: getAuthSecret(),
@@ -41,7 +42,7 @@ export const authConfig = {
 
       if (isAdminRoute) {
         if (!isLoggedIn) return false;
-        if (auth?.user?.role !== "admin") {
+        if (!isAdminAuthUser(auth.user)) {
           return Response.redirect(new URL("/", nextUrl));
         }
         return true;
@@ -49,7 +50,7 @@ export const authConfig = {
 
       return isLoggedIn;
     },
-    jwt({ token, user, trigger, session }) {
+    async jwt({ token, user, trigger, session }) {
       if (user?.id) {
         token.sub = user.id;
       }
@@ -66,15 +67,12 @@ export const authConfig = {
         if (typeof session.name === "string") token.name = session.name;
         if (typeof session.email === "string") token.email = session.email;
       }
-      return token;
+      return await refreshTokenRole(token);
     },
     session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = token.sub;
-        session.user.role =
-          token.role === "admin" || token.role === "user"
-            ? token.role
-            : "user";
+        session.user.role = normalizeSessionRole(token.role);
         if (typeof token.name === "string") session.user.name = token.name;
         if (typeof token.email === "string") session.user.email = token.email;
       }

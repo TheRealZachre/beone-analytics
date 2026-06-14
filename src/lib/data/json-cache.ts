@@ -2,16 +2,21 @@ import { existsSync } from "fs";
 import { readFile, writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { isCloudflareWorkersRuntime } from "@/lib/cloudflare-build";
+import {
+  readKvJsonCache,
+  writeKvJsonCache,
+} from "@/lib/data/cloudflare-kv-cache";
 
 const TMP_DATA_DIR = path.join("/tmp", "digital-dashboard-data");
 
 const bundledJsonLoaders: Record<string, () => Promise<unknown>> = {
-  "users.json": () => import("../../../data/users.json").then((m) => m.default),
+  "analytics-users.json": () =>
+    import("../../../data/analytics-users.json").then((m) => m.default),
   "social-posts.json": () =>
     import("../../../data/social-posts.json").then((m) => m.default),
   "linkedin-posts.json": () =>
     import("../../../data/linkedin-posts.json").then((m) => m.default),
-  "password-reset-tokens.json": () =>
+  "analytics-password-reset-tokens.json": () =>
     Promise.resolve({ tokens: [] }),
 };
 
@@ -78,6 +83,8 @@ async function readBundledJson<T>(filename: string): Promise<T | null> {
 
 export async function readJsonCache<T>(filename: string): Promise<T | null> {
   if (isCloudflareWorkersRuntime()) {
+    const kvData = await readKvJsonCache<T>(filename);
+    if (kvData) return kvData;
     return readBundledJson<T>(filename);
   }
 
@@ -112,7 +119,8 @@ export async function writeJsonCache<T>(
   filename: string,
   data: T
 ): Promise<void> {
-  if (!hasWritableFilesystem()) {
+  if (isCloudflareWorkersRuntime()) {
+    await writeKvJsonCache(filename, data);
     return;
   }
 
